@@ -2,7 +2,7 @@
 %define imgname mandriva-top 
 %define name %{rname}-common
 %define version 2007
-%define release %mkrel 11
+%define release %mkrel 12
 
 Name: %name
 Version: %version
@@ -15,14 +15,14 @@ Source1: %{rname}.sysconfig
 Source2: %{rname}-start
 Source3: %{imgname}.png
 Source4: kstylerc.xinit
-License: GPL
+License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-root
 Requires: mesa-demos
 
 %description
 This package contains tools for compositing window managers, such as
-compiz and beryl. This includes X session scripts, configuration files
-and images.
+Compiz. This includes X session scripts, configuration files and
+images.
 
 %prep
 %setup -q -c -T
@@ -46,5 +46,4 @@ rm -rf %{buildroot}
 %{_bindir}/%{rname}-start
 %dir %{_datadir}/%{rname}
 %{_datadir}/%{rname}/%{imgname}.png
-
 
