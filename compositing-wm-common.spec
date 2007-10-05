@@ -2,7 +2,7 @@
 %define imgname mandriva-top 
 %define name %{rname}-common
 %define version 2007
-%define release %mkrel 14
+%define release %mkrel 15
 
 Name: %name
 Version: %version
