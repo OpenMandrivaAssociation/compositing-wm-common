@@ -16,7 +16,6 @@ Source2: %{rname}-start
 Source3: %{imgname}.png
 Source4: kstylerc.xinit
 License: GPLv2+
-BuildRoot: %{_tmppath}/%{name}-root
 Requires: mesa-demos
 
 %description
