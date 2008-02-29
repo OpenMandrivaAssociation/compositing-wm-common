@@ -2,7 +2,7 @@
 %define imgname mandriva-top 
 %define name %{rname}-common
 %define version 2008.1
-%define release %mkrel 1
+%define release %mkrel 2
 
 Name: %name
 Version: %version
@@ -15,6 +15,7 @@ Source1: %{rname}.sysconfig
 Source2: %{rname}-start
 Source3: %{imgname}.png
 Source4: kstylerc.xinit
+Source5: compiz-manager
 License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-root
 Requires: mesa-demos
@@ -33,8 +34,22 @@ install -D -m 0755 %SOURCE0 %{buildroot}%{_sysconfdir}/X11/xinit.d/40%{rname}
 install -D -m 0755 %SOURCE4 %{buildroot}%{_sysconfdir}/X11/xinit.d/41kstylerc
 install -D -m 0644 %SOURCE1 %{buildroot}%{_sysconfdir}/sysconfig/%{rname}
 install -D -m 0755 %SOURCE2 %{buildroot}%{_bindir}/%{rname}-start
+install -D -m 0755 %SOURCE5 %{buildroot}%{_bindir}/compiz-manager
 install -D -m 0644 %SOURCE3 %{buildroot}%{_datadir}/%{rname}/%{imgname}.png
 perl -pi -e "s!__LIBDIR__!%{_libdir}!" %{buildroot}%{_bindir}/%{rname}-start
+
+mkdir -p %{buildroot}%{_sysconfdir}/xdg/compiz
+
+cat >%{buildroot}%{_sysconfdir}/xdg/compiz/compiz-manager <<EOF
+COMPIZ_BIN_PATH="%{_bindir}"
+PLUGIN_PATH="%{_libdir}/compiz"
+
+# The path regexp we use for detecting drivers for whitelist
+XORG_DRIVER_PATH="%{_libdir}/xorg/modules/drivers/+"
+
+# We start the decorator via compiz' decoration plugin so set it to "no" here.
+START_DECORATOR="no"
+EOF
 
 %clean
 rm -rf %{buildroot}
@@ -43,7 +58,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %{_sysconfdir}/X11/xinit.d/*
 %config(noreplace) %{_sysconfdir}/sysconfig/%{rname}
+%config(noreplace) %{_sysconfdir}/xdg/compiz/compiz-manager
 %{_bindir}/%{rname}-start
+%{_bindir}/compiz-manager
 %dir %{_datadir}/%{rname}
 %{_datadir}/%{rname}/%{imgname}.png
 
