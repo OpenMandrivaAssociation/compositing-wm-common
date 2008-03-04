@@ -2,7 +2,7 @@
 %define imgname mandriva-top 
 %define name %{rname}-common
 %define version 2008.1
-%define release %mkrel 2
+%define release %mkrel 3
 
 Name: %name
 Version: %version
@@ -18,7 +18,9 @@ Source4: kstylerc.xinit
 Source5: compiz-manager
 License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-root
+# For glxinfo
 Requires: mesa-demos
+Requires: xvinfo
 
 %description
 This package contains tools for compositing window managers, such as
