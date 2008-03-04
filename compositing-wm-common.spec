@@ -2,7 +2,7 @@
 %define imgname mandriva-top 
 %define name %{rname}-common
 %define version 2008.1
-%define release %mkrel 3
+%define release %mkrel 4
 
 Name: %name
 Version: %version
@@ -40,15 +40,16 @@ install -D -m 0755 %SOURCE5 %{buildroot}%{_bindir}/compiz-manager
 install -D -m 0644 %SOURCE3 %{buildroot}%{_datadir}/%{rname}/%{imgname}.png
 perl -pi -e "s!__LIBDIR__!%{_libdir}!" %{buildroot}%{_bindir}/%{rname}-start
 
+
+
+# Fix the paths in the compiz-manager script
+sed -i "s|/usr/local|/usr|" %{buildroot}%{_bindir}/compiz-manager
+sed -i "s|/usr/bin|%{_bindir}|" %{buildroot}%{_bindir}/compiz-manager
+sed -i "s|/usr/lib|%{_libdir}|" %{buildroot}%{_bindir}/compiz-manager
+
+# And a default config to override some defaults
 mkdir -p %{buildroot}%{_sysconfdir}/xdg/compiz
-
 cat >%{buildroot}%{_sysconfdir}/xdg/compiz/compiz-manager <<EOF
-COMPIZ_BIN_PATH="%{_bindir}"
-PLUGIN_PATH="%{_libdir}/compiz"
-
-# The path regexp we use for detecting drivers for whitelist
-XORG_DRIVER_PATH="%{_libdir}/xorg/modules/drivers/+"
-
 # We start the decorator via compiz' decoration plugin so set it to "no" here.
 START_DECORATOR="no"
 EOF
