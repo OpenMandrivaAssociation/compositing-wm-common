@@ -1,8 +1,8 @@
 %define rname compositing-wm
 %define imgname mandriva-top 
 %define name %{rname}-common
-%define version 2008.1
-%define release %mkrel 4
+%define version 2009.0
+%define release %mkrel 1
 
 Name: %name
 Version: %version
