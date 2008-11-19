@@ -2,7 +2,7 @@
 %define imgname mandriva-top 
 %define name %{rname}-common
 %define version 2009.0
-%define release %mkrel 3
+%define release %mkrel 4
 
 Name: %name
 Version: %version
@@ -14,7 +14,6 @@ Source0: %{rname}.xinit
 Source1: %{rname}.sysconfig
 Source2: %{rname}-start
 Source3: %{imgname}.png
-Source4: kstylerc.xinit
 Source5: compiz-manager
 License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-root
@@ -33,7 +32,6 @@ images.
 %install
 rm -rf %{buildroot}
 install -D -m 0755 %SOURCE0 %{buildroot}%{_sysconfdir}/X11/xinit.d/40%{rname}
-install -D -m 0755 %SOURCE4 %{buildroot}%{_sysconfdir}/X11/xinit.d/41kstylerc
 install -D -m 0644 %SOURCE1 %{buildroot}%{_sysconfdir}/sysconfig/%{rname}
 install -D -m 0755 %SOURCE2 %{buildroot}%{_bindir}/%{rname}-start
 install -D -m 0755 %SOURCE5 %{buildroot}%{_bindir}/compiz-manager
