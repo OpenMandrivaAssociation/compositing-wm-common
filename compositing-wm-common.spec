@@ -2,7 +2,7 @@
 %define imgname mandriva-top 
 %define name %{rname}-common
 %define version 2009.0
-%define release %mkrel 7
+%define release %mkrel 8
 
 Name: %name
 Version: %version
@@ -17,8 +17,7 @@ Source3: %{imgname}.png
 Source5: compiz-manager
 License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-root
-# For glxinfo
-Requires: mesa-demos
+Requires: glxinfo
 Requires: xvinfo
 
 %description
