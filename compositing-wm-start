@@ -1,0 +1,29 @@
+#!/bin/sh
+
+if [ -r ~/.compositing-wm ]; then
+      CONFIG=~/.compositing-wm
+else
+      CONFIG=/etc/sysconfig/compositing-wm
+fi
+
+COMPOSITING_WM=`sh -c "source $CONFIG; echo \\$COMPOSITING_WM"`
+if [ -z "$COMPOSITING_WM" ]; then
+  COMPOSITING_WM=compiz
+  unset CONFIG
+fi
+
+# read package defaults first
+WM_CONFIG=/usr/share/compositing-wm/$COMPOSITING_WM.defaults
+[ -r "$WM_CONFIG" ] && . $WM_CONFIG
+
+# allow system defaults to override package defaults
+[ -r "$CONFIG" ] && . $CONFIG
+
+COMPOSITING_LIBRARY_PATH=$LD_LIBRARY_PATH
+
+if [ "$COMPOSITING_SERVER_SPAWNS_WINDOW" = "no" ]; then
+    DISPLAY=$COMPOSITING_SERVER_DISPLAY_SRC
+    export DISPLAY
+fi
+
+LD_LIBRARY_PATH=$COMPOSITING_LIBRARY_PATH $COMPOSITING_WM $COMPOSITING_WM_ARGS "$@" &

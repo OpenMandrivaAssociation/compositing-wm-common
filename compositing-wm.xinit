@@ -1,0 +1,66 @@
+#!/bin/sh
+# to be sourced
+
+if [ -r ~/.compositing-wm ]; then
+  CONFIG=~/.compositing-wm
+else
+  CONFIG=/etc/sysconfig/compositing-wm
+fi
+
+COMPOSITING_WM=`sh -c "source $CONFIG; echo \\$COMPOSITING_WM"`
+if [ -z "$COMPOSITING_WM" ]; then
+  COMPOSITING_WM=compiz
+  unset CONFIG
+fi
+
+# read package defaults first
+WM_CONFIG=/usr/share/compositing-wm/$COMPOSITING_WM.defaults
+[ -r "$WM_CONFIG" ] && . $WM_CONFIG
+
+# allow system defaults to override package defaults
+[ -r "$CONFIG" ] && . $CONFIG
+
+[ "$SESSION" = "failsafe" -o "$SESSION" = "drak3d" -o "$SESSION" = "GNOME3Preview" ] && COMPOSITING_WM_START=no
+
+if [ "$COMPOSITING_WM_START" = "auto" ]; then
+  # auto-start composting window manager if Xgl is started
+  # or if direct rendering and GLX_EXT_texture_from_pixmap are available
+  source /etc/init.d/functions
+  if grep -q no3ddesktop /proc/cmdline; then
+    COMPOSITING_WM_START=no
+  elif [ "$XGL" = "yes" ]; then
+    COMPOSITING_WM_START=yes
+  elif glxinfo 2>/dev/null | awk 'BEGIN { no_direct = 1; no_tfp = 1 } /direct rendering: Yes/ { no_direct = 0 } /GLX_EXT_texture_from_pixmap/ { no_tfp = 0 } END { exit or(no_direct, no_tfp) }'; then
+    COMPOSITING_WM_START=yes
+  else
+    COMPOSITING_WM_START=no
+  fi
+fi
+
+export COMPOSITING_WM_START
+if [ "$COMPOSITING_WM_START" = "yes" ]; then
+  START=/usr/bin/compositing-wm-start
+  case "$SESSION" in
+    GNOME)
+      export WINDOW_MANAGER=$START
+      ;;
+    KDE3)
+      export KDEWM=$START
+      ;;
+    KDE4)
+      if [ "$COMPOSITING_WM" = "compiz" -o "$COMPOSITING_WM" = "compiz-fusion" ]; then
+	      export KDEWM=$COMPOSITING_WM
+      else
+	      export KDEWM=$START
+      fi
+      ;;
+    *)
+      $START
+      ;;
+  esac
+    
+  # Start the decorator now to allow compiz to be saved into session
+  if [ -n "$COMPOSITING_WINDOW_DECORATOR" ]; then
+    $COMPOSITING_WINDOW_DECORATOR &
+  fi
+fi

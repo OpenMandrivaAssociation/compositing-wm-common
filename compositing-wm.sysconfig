@@ -1,0 +1,21 @@
+# COMPOSITING_WM_START values:
+#   yes: start compositing window manager on session start
+#   auto: start compositing window manager on session start
+#         if Xgl is started
+#         or if direct rendering and GLX_EXT_texture_from_pixmap are available
+#   no: do not start compositing window manager on session start
+COMPOSITING_WM_START=no
+
+# if COMPOSITING_WM is not empty, it overrides the default compositing
+# window manager (which is compiz)
+COMPOSITING_WM=
+
+# if COMPOSITING_WM_ARGS is defined, it is used as
+# arguments for the compositing window manager
+#COMPOSITING_WM_ARGS=
+
+# if COMPOSITING_WINDOW_DECORATOR is defined, it overrides the default
+# window decorator, the specified program will be run after
+# compositing window manager
+# NB When using compiz fusion the decorator is started automatically.
+#COMPOSITING_WINDOW_DECORATOR=
