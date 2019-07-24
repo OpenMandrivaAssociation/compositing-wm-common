@@ -3,8 +3,8 @@
 
 Summary:	Common tools for compositing window managers
 Name:		%{rname}-common
-Version:	2010.0
-Release:	7
+Version:	2018.0
+Release:	1
 Group:		System/X11
 License:	GPLv2+
 Url:		http://www.mandriva.com
