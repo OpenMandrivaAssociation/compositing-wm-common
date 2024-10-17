@@ -7,7 +7,7 @@ Version:	2018.0
 Release:	1
 Group:		System/X11
 License:	GPLv2+
-Url:		http://www.mandriva.com
+Url:		https://www.mandriva.com
 Source0:	%{rname}.xinit
 Source1:	%{rname}.sysconfig
 Source2:	%{rname}-start
